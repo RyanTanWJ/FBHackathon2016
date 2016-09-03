@@ -212,6 +212,7 @@ public class FingerPaintActivity extends Activity
         public void nextFrame(){
             Bitmap bitmap = getDrawingCache();
             bitmapArr[frameCounter] = bitmap;
+            System.out.println("@@@bitmap " + frameCounter + " = " +  bitmap.toString());
             frameCounter++;
         }
         @Override
@@ -281,7 +282,9 @@ public class FingerPaintActivity extends Activity
         public void saveGif() {
             for(int i=0; i<=frameCounter; i++) {
                 Log.i(TAG, "ADDING FRAME " + i + " ...");
-                encoder.addFrame(bitmapArr[i]);
+                Bitmap bitmap = bitmapArr[i];
+                encoder.addFrame(bitmap);
+                bitmap.recycle();
             }
             encoder.finish();
             File filePath = new File("/sdcard/PigeonMessenger/images/", "sample.gif");
@@ -289,9 +292,18 @@ public class FingerPaintActivity extends Activity
             try {
                 outputStream = new FileOutputStream(filePath);
                 // bosに生成されたgifデータをファイルに吐き出す
-                outputStream.write(mv.bos.toByteArray());
+                outputStream.write(bos.toByteArray());
             } catch (FileNotFoundException e) {
             } catch (IOException e) {
+            }
+        }
+
+        public void start_gif() {
+            if(encoder==null) {
+                encoder = new AnimatedGifEncoder();
+                encoder.setDelay(100);  // ディレイ 500/ms
+                encoder.setRepeat(0);   // 0:ループする -1:ループしない
+                encoder.start(bos);     // gitデータ生成先ををbosに設定
             }
         }
     }
@@ -355,12 +367,7 @@ public class FingerPaintActivity extends Activity
                 }
                 return true;
             case START_GIF:
-                if(mv.encoder==null) {
-                    mv.encoder = new AnimatedGifEncoder();
-                    mv.encoder.setDelay(100);  // ディレイ 500/ms
-                    mv.encoder.setRepeat(0);   // 0:ループする -1:ループしない
-                    mv.encoder.start(mv.bos);     // gitデータ生成先ををbosに設定
-                }
+                mv.start_gif();
                 return true;
             case ERASE_MENU_ID:
                 mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
