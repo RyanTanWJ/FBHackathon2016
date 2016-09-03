@@ -17,7 +17,7 @@ import android.widget.Toast;
 /**
  * Created by riot94 on 3/9/2016.
  */
-public class Messenger extends Activity {
+public class MessengerApp extends Activity {
     Button sendSMS;
     EditText msgTxt;
     EditText numTxt;
@@ -66,7 +66,7 @@ public class Messenger extends Activity {
             public void onReceive(Context arg0, Intent arg1){
                 switch(getResultCode()){
                     case Activity.RESULT_OK:
-                        Toast.makeText(Messenger.this, "SMS sent", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MessengerApp.this, "SMS sent", Toast.LENGTH_LONG).show();
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         Toast.makeText(getBaseContext(), "Generic Failure", Toast.LENGTH_LONG).show();
@@ -82,7 +82,7 @@ public class Messenger extends Activity {
             public void onReceive(Context arg0, Intent arg1){
                 switch(getResultCode()){
                     case Activity.RESULT_OK:
-                        Toast.makeText(Messenger.this, "SMS sent", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MessengerApp.this, "SMS sent", Toast.LENGTH_LONG).show();
                         break;
                     case Activity.RESULT_CANCELED:
                         Toast.makeText(getBaseContext(), "SMS not delivered", Toast.LENGTH_LONG).show();
