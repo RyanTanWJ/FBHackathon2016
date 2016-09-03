@@ -8,7 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.pigeon.chatlogin.LoginActivity">
+    android:background="@drawable/background1"
+    tools:context="com.pigeon.chatlogin.LoginActivity"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,10 +31,72 @@
         android:layout_marginBottom="30dp"
         android:layout_centerInParent="true" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/gg_login_button"
-        android:text="@string/gg_login_button_text"
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/textView9"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView7"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal" />
+
+    <ImageButton
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:id="@+id/facebookButton"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/facebook_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal" />
+
+    <ImageButton
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:id="@+id/googleButton"
+        android:background="@drawable/google_button" />
 
 </LinearLayout>

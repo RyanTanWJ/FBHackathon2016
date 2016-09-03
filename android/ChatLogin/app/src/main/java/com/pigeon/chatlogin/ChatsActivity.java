@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -106,6 +107,14 @@ public class ChatsActivity
             startActivity(intent);
         }
 
+        private void gotoChatActivity() {
+            Intent intent = new Intent(this, ChatActivity.class);
+            Bundle b = new Bundle();
+            b.putSerializable(getString(R.string.user_key_name), chatUser);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
+
         public void onConnectionFailed(ConnectionResult connectionResult) {
             // An unresolvable error has occurred and Google APIs (including Sign-In) will not
             // be available.
@@ -133,7 +142,7 @@ public class ChatsActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        Button logOutButton = (Button)findViewById(R.id.logOutButton);
+        ImageButton logOutButton = (ImageButton)findViewById(R.id.logOutButton);
         logOutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (chatUser.getType().equals("fb"))
@@ -143,16 +152,20 @@ public class ChatsActivity
             }
         });
 
-        nameView = (TextView)findViewById(R.id.nameView);
         imageView = (ImageView)findViewById(R.id.imageView);
 
         Bundle b = this.getIntent().getExtras();
         if (b != null)
             chatUser = (ChatUser) b.getSerializable(getString(R.string.user_key_name));
 
-        nameView.setText(chatUser.getName());
-
         new DownloadProfilePhoto().execute();
+
+        ImageButton newChatButton = (ImageButton)findViewById(R.id.newChatButton);
+        newChatButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                gotoChatActivity();
+            }
+        });
 
     }
 }

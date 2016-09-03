@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -62,6 +63,15 @@ public class LoginActivity
         fbLoginButton = (LoginButton)findViewById(R.id.fb_login_button);
         fbLoginButton.setText("Sing in");
 
+        ImageButton facebookButton = (ImageButton)findViewById(R.id.facebookButton);
+        facebookButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                fbLoginButton.performClick();
+            }
+        });
+
+        fbLoginButton.setVisibility(View.INVISIBLE);
+
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -115,9 +125,10 @@ public class LoginActivity
         });
 
         /*** Google login ***/
-        findViewById(R.id.gg_login_button).setOnClickListener(this);
+        // findViewById(R.id.gg_login_button).setOnClickListener(this);
 
-        SignInButton ggLoginButton = (SignInButton)findViewById(R.id.gg_login_button);
+        ImageButton googleButton = (ImageButton)findViewById(R.id.googleButton);
+        googleButton.setOnClickListener(this);
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -131,8 +142,6 @@ public class LoginActivity
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-        SignInButton signInButton = (SignInButton) findViewById(R.id.gg_login_button);
     }
 
     @Override
@@ -185,6 +194,7 @@ public class LoginActivity
         } else {
             // Signed out, show unauthenticated UI.
             // mStatusTextView.setText("Google auth failed");
+            Log.i(TAG,result.getStatus().toString());
         }
     }
 
@@ -228,19 +238,12 @@ public class LoginActivity
     }
 
     private void updateUI(boolean signedIn) {
-        if (signedIn) {
-            findViewById(R.id.gg_login_button).setVisibility(View.GONE);
-            // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.gg_login_button).setVisibility(View.VISIBLE);
-            // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
-        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.gg_login_button:
+            case R.id.googleButton:
                 signIn();
                 break;
         }
