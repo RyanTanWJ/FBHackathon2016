@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ChatLogin</string>
+
+    <string name="fb_login_protocol_scheme">fb1770101516566614</string>
+    <string name="facebook_app_id">1770101516566614</string>
+
+    <string name="gg_login_button_text">Log in with Google</string>
+
+    <string name="user_key_name">chatuser</string>
+
+</resources>

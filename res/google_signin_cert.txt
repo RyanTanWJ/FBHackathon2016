@@ -1,0 +1,17 @@
+C:\Program Files\Java\jdk1.8.0_65\bin>keytool.exe -exportcert -list -v -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+Enter keystore password:
+Alias name: androiddebugkey
+Creation date: 22 Aug, 2016
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: C=US, O=Android, CN=Android Debug
+Issuer: C=US, O=Android, CN=Android Debug
+Serial number: 1
+Valid from: Mon Aug 22 16:45:24 SGT 2016 until: Wed Aug 15 16:45:24 SGT 2046
+Certificate fingerprints:
+         MD5:  EC:D0:6C:65:01:68:3F:CD:E5:36:42:29:29:23:E5:45
+         SHA1: FC:16:A2:86:54:BC:71:50:C7:27:ED:5F:57:F3:2F:83:1C:9D:FC:4F
+         SHA256: 07:64:EB:90:E4:05:2C:93:16:06:EA:23:5F:66:4D:F5:3C:63:5E:4E:9A:9C:06:70:BB:4B:00:4F:F2:2A:A3:F0
+         Signature algorithm name: SHA1withRSA
+         Version: 1
