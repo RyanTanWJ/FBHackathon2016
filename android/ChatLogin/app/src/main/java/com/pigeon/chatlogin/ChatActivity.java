@@ -1,6 +1,7 @@
 package com.pigeon.chatlogin;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -29,25 +32,45 @@ public class ChatActivity extends AppCompatActivity {
 
     private ChatUser myChatUser;
 
+    private EditText editText;
+
+    private LinearLayout scrollLayout;
+
+    private void addMessage() {
+        // new SendMessage().execute(editText.getText().toString());
+        try {
+            String msg = editText.getText().toString();
+            editText.setText("");
+            TextView tv = new TextView(this);
+            tv.setText(msg);
+            tv.setTextColor(Color.BLACK);
+            tv.setTextSize(18.0f);
+            scrollLayout.addView(tv);
+        }
+        catch (Exception ex) {
+            Log.d(TAG, ex.toString());
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        chatPanel = (ScrollView)findViewById(R.id.scrollView);
-
         Bundle b = this.getIntent().getExtras();
         if (b != null)
             myChatUser = (ChatUser) b.getSerializable(getString(R.string.user_key_name));
 
+        chatPanel = (ScrollView)findViewById(R.id.scrollView);
+        editText = (EditText)findViewById(R.id.editText);
+        scrollLayout = (LinearLayout)findViewById(R.id.scrollLayout);
+
         // connectWebSocket();
 
-        final EditText editText = (EditText)findViewById(R.id.editText);
         ImageButton sendButton = (ImageButton)findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new SendMessage().execute(editText.getText().toString());
-                editText.setText("");
+                addMessage();
             }
         });
     }
