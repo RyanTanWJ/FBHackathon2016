@@ -228,7 +228,7 @@ public class FingerPaintActivity extends Activity
                         Bitmap bitmap = mv.getDrawingCache();
 
                         String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-                        File file = new File("/sdcard/"+name+".png");
+                        File file = new File("/sdcard/PigeonMessenger/images/"+name+".png");
                         try
                         {
                             if(!file.exists())
