@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -43,6 +44,9 @@ public class FingerPaintActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // remove title
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         AttributeSet blank = new AttributeSet() {
             @Override

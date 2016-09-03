@@ -28,10 +28,9 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="266dp"
+                    android:layout_height="80dp"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="6"
                     android:background="@drawable/rounded_corner"
                     android:padding="16dp"
                     android:text="Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example. Android charting application xml ui design tutorial with example."
