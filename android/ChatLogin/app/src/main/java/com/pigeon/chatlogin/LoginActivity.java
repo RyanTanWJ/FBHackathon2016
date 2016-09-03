@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -58,11 +59,21 @@ public class LoginActivity
         /*** Facebook login ***/
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-
         setContentView(R.layout.activity_login);
         mStatusTextView = (TextView)findViewById(R.id.info);
         fbLoginButton = (LoginButton)findViewById(R.id.fb_login_button);
         AccessToken token = AccessToken.getCurrentAccessToken();
+
+
+        Button login_skip = (Button)(findViewById(R.id.skip_login));
+        login_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG,"skipping login page");
+                Intent i = new Intent(getApplicationContext(), ChatActivity.class);
+                startActivity(i);
+            }
+        });
 
         if (token != null) {
             LoginManager.getInstance().logOut();

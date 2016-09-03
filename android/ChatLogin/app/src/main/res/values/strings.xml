@@ -7,5 +7,6 @@
     <string name="gg_login_button_text">Log in with Google</string>
 
     <string name="user_key_name">chatuser</string>
+    <string name="skip_login" />
 
 </resources>

@@ -117,4 +117,13 @@
         android:id="@+id/googleButton"
         android:background="@drawable/google_button" />
 
+    <Button
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:text="@string/skip_login"
+        android:id="@+id/skip_login"
+        android:layout_gravity="center_horizontal"
+        android:background="#00a5ffa5"
+        android:textColor="@color/colorPrimary" />
+
 </LinearLayout>
