@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"Button was clicked!");
-                Intent i = new Intent(getApplicationContext(), DrawActivity.class);
+                Intent i = new Intent(getApplicationContext(), FingerPaintActivity.class);
                 startActivity(i);
             }
         });

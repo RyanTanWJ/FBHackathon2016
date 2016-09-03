@@ -16,6 +16,7 @@ import android.graphics.PorterDuffXfermode;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -31,6 +32,7 @@ public class FingerPaintActivity extends Activity
 
     MyView mv;
     AlertDialog dialog;
+    static String TAG = "FingerPaintActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,11 +233,13 @@ public class FingerPaintActivity extends Activity
                         {
                             if(!file.exists())
                             {
+                                Log.i(TAG,"file does not exist, creating file");
                                 file.createNewFile();
                             }
                             FileOutputStream ostream = new FileOutputStream(file);
                             bitmap.compress(Bitmap.CompressFormat.PNG, 10, ostream);
                             ostream.close();
+                            Log.i(TAG,"file created");
                             mv.invalidate();
                         }
                         catch (Exception e)
