@@ -49,8 +49,8 @@
     </ScrollView>
 
     <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="26dp"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
         android:id="@+id/sendButton"
         android:background="@drawable/send_button"
         android:paddingRight="10dp"
