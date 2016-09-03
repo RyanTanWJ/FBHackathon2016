@@ -29,13 +29,13 @@ public class ConvertToGIF {
             encoder.addFrame(bmp1);  // gifに追加
             bmp1.recycle();
 
-            bmp2 = BitmapFactory.decodeStream(new FileInputStream("/sdcard/PigeonMessenger/images/target2.png"));
-            encoder.addFrame(bmp2);  // gifに追加
-            bmp2.recycle();
+            bmp1 = BitmapFactory.decodeStream(new FileInputStream("/sdcard/PigeonMessenger/images/target2.png"));
+            encoder.addFrame(bmp1);  // gifに追加
+            bmp1.recycle();
 
-            bmp3 = BitmapFactory.decodeStream(new FileInputStream("/sdcard/PigeonMessenger/images/target3.png"));
-            encoder.addFrame(bmp3);  // gifに追加
-            bmp3.recycle();
+            bmp1 = BitmapFactory.decodeStream(new FileInputStream("/sdcard/PigeonMessenger/images/target3.png"));
+            encoder.addFrame(bmp1);  // gifに追加
+            bmp1.recycle();
 
         } catch (FileNotFoundException e) {
         }
