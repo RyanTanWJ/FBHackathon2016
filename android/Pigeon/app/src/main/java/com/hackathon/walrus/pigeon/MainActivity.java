@@ -73,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        //temp method to create GIF
         if (id == R.id.action_tools) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+            ConvertToGIF convert = new ConvertToGIF();
+            Log.i(TAG, "converting images to GIF");
             return true;
         }
 

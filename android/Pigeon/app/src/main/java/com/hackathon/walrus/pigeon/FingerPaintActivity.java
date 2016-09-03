@@ -16,6 +16,7 @@ import android.graphics.PorterDuffXfermode;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,8 +25,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FingerPaintActivity extends Activity
         implements ColorPickerDialog.OnColorChangedListener {
@@ -38,7 +42,118 @@ public class FingerPaintActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mv= new MyView(this);
+        AttributeSet blank = new AttributeSet() {
+            @Override
+            public int getAttributeCount() {
+                return 0;
+            }
+
+            @Override
+            public String getAttributeName(int index) {
+                return null;
+            }
+
+            @Override
+            public String getAttributeValue(int index) {
+                return null;
+            }
+
+            @Override
+            public String getAttributeValue(String namespace, String name) {
+                return null;
+            }
+
+            @Override
+            public String getPositionDescription() {
+                return null;
+            }
+
+            @Override
+            public int getAttributeNameResource(int index) {
+                return 0;
+            }
+
+            @Override
+            public int getAttributeListValue(String namespace, String attribute, String[] options, int defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public boolean getAttributeBooleanValue(String namespace, String attribute, boolean defaultValue) {
+                return false;
+            }
+
+            @Override
+            public int getAttributeResourceValue(String namespace, String attribute, int defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public int getAttributeIntValue(String namespace, String attribute, int defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public int getAttributeUnsignedIntValue(String namespace, String attribute, int defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public float getAttributeFloatValue(String namespace, String attribute, float defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public int getAttributeListValue(int index, String[] options, int defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public boolean getAttributeBooleanValue(int index, boolean defaultValue) {
+                return false;
+            }
+
+            @Override
+            public int getAttributeResourceValue(int index, int defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public int getAttributeIntValue(int index, int defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public int getAttributeUnsignedIntValue(int index, int defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public float getAttributeFloatValue(int index, float defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public String getIdAttribute() {
+                return null;
+            }
+
+            @Override
+            public String getClassAttribute() {
+                return null;
+            }
+
+            @Override
+            public int getIdAttributeResourceValue(int defaultValue) {
+                return 0;
+            }
+
+            @Override
+            public int getStyleAttribute() {
+                return 0;
+            }
+        };
+        mv= new MyView(this,null);
         mv.setDrawingCacheEnabled(true);
 //        mv.setBackgroundResource(R.drawable.afor);//set the back ground if you wish to
         setContentView(mv);
@@ -65,20 +180,29 @@ public class FingerPaintActivity extends Activity
 
     public class MyView extends View {
 
-        private static final float MINP = 0.25f;
-        private static final float MAXP = 0.75f;
-        private Bitmap mBitmap;
-        private Canvas mCanvas;
-        private Path mPath;
+        private Bitmap  mBitmap;
+        private Canvas  mCanvas;
+        private Path    mPath;
         private Paint   mBitmapPaint;
-        Context context;
+        private Paint   mPaint;
+        private List<Path> mPathsArray = new ArrayList<Path>();
 
-        public MyView(Context c) {
-            super(c);
-            context=c;
+        //GIF encoder
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        AnimatedGifEncoder encoder;
+
+        public MyView(Context c, AttributeSet attrs) {
+            super(c, attrs);
+            mPaint = new Paint();
+            mPaint.setColor(0xFF00F1F5);
+            mPaint.setStyle(Paint.Style.STROKE);
+            mPaint.setStrokeJoin(Paint.Join.ROUND);
+            mPaint.setStrokeCap(Paint.Cap.ROUND);
+            mPaint.setStrokeWidth(6);
+
             mPath = new Path();
             mBitmapPaint = new Paint(Paint.DITHER_FLAG);
-
         }
 
         @Override
@@ -86,13 +210,14 @@ public class FingerPaintActivity extends Activity
             super.onSizeChanged(w, h, oldw, oldh);
             mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             mCanvas = new Canvas(mBitmap);
-
         }
-
+        public void clear(){
+            mBitmap = Bitmap.createBitmap(480, 480, Bitmap.Config.ARGB_8888);
+            mPath = new Path();
+            invalidate();
+        }
         @Override
         protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-
             canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
             canvas.drawPath(mPath, mPaint);
         }
@@ -101,12 +226,9 @@ public class FingerPaintActivity extends Activity
         private static final float TOUCH_TOLERANCE = 4;
 
         private void touch_start(float x, float y) {
-            //showDialog();
-            mPath.reset();
             mPath.moveTo(x, y);
             mX = x;
             mY = y;
-
         }
         private void touch_move(float x, float y) {
             float dx = Math.abs(x - mX);
@@ -117,15 +239,12 @@ public class FingerPaintActivity extends Activity
                 mY = y;
             }
         }
-
         private void touch_up() {
             mPath.lineTo(mX, mY);
             // commit the path to our offscreen
             mCanvas.drawPath(mPath, mPaint);
             // kill this so we don't double draw
-            mPath.reset();
-            mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SCREEN));
-            //mPaint.setMaskFilter(null);
+            mPathsArray.add(mPath);
         }
 
         @Override
@@ -139,7 +258,6 @@ public class FingerPaintActivity extends Activity
                     invalidate();
                     break;
                 case MotionEvent.ACTION_MOVE:
-
                     touch_move(x, y);
                     invalidate();
                     break;
@@ -151,13 +269,15 @@ public class FingerPaintActivity extends Activity
             return true;
         }
     }
-
     private static final int COLOR_MENU_ID = Menu.FIRST;
     private static final int EMBOSS_MENU_ID = Menu.FIRST + 1;
     private static final int BLUR_MENU_ID = Menu.FIRST + 2;
     private static final int ERASE_MENU_ID = Menu.FIRST + 3;
     private static final int SRCATOP_MENU_ID = Menu.FIRST + 4;
-    private static final int Save = Menu.FIRST + 5;
+    private static final int NEXT_FRAME = Menu.FIRST + 5;
+    private static final int Clear = Menu.FIRST + 6;
+    private static final int Save = Menu.FIRST + 7;
+    private static final int SAVE_GIF = Menu.FIRST + 8;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -168,7 +288,11 @@ public class FingerPaintActivity extends Activity
         menu.add(0, BLUR_MENU_ID, 0, "Blur").setShortcut('5', 'z');
         menu.add(0, ERASE_MENU_ID, 0, "Erase").setShortcut('5', 'z');
         menu.add(0, SRCATOP_MENU_ID, 0, "SrcATop").setShortcut('5', 'z');
+        menu.add(0, Clear, 0, "Clear").setShortcut('5','z');
+        menu.add(0, NEXT_FRAME, 0, "Next Frame").setShortcut('5','z');
         menu.add(0, Save, 0, "Save").setShortcut('5', 'z');
+        menu.add(0, SAVE_GIF, 0, "Export GIF").setShortcut('5', 'z');
+
 
         return true;
     }
@@ -212,6 +336,17 @@ public class FingerPaintActivity extends Activity
                         PorterDuff.Mode.SRC_ATOP));
                 mPaint.setAlpha(0x80);
                 return true;
+            case Clear:
+                mv.clear();
+                return true;
+            case NEXT_FRAME:
+                mv.encoder = new AnimatedGifEncoder();
+                mv.encoder.setDelay(100);  // ディレイ 500/ms
+                mv.encoder.setRepeat(0);   // 0:ループする -1:ループしない
+                mv.encoder.start(mv.bos);     // gitデータ生成先ををbosに設定
+                return true;
+            case SAVE_GIF:
+                return true;
             case Save:
                 AlertDialog.Builder editalert = new AlertDialog.Builder(FingerPaintActivity.this);
                 editalert.setTitle("Please Enter the name with which you want to Save");
@@ -228,7 +363,12 @@ public class FingerPaintActivity extends Activity
                         Bitmap bitmap = mv.getDrawingCache();
 
                         String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-                        File file = new File("/sdcard/PigeonMessenger/images/"+name+".png");
+                        File directory = new File(path + "/PigeonMessenger/images");
+                        if(!directory.exists() && !directory.isDirectory()) {
+                            directory.mkdirs();
+                            Log.i(TAG,"directory created");
+                        }
+                        File file = new File(directory + File.separator +name+ ".png");
                         try
                         {
                             if(!file.exists())
