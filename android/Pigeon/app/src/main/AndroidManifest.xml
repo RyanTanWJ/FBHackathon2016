@@ -31,7 +31,8 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".FingerPaintActivity" />
-        <activity android:name=".DrawActivity"></activity>
+        <activity android:name=".DrawActivity" />
+        <activity android:name=".MessengerApp"></activity>
     </application>
 
 </manifest>

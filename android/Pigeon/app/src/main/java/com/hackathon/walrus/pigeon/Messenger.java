@@ -30,12 +30,12 @@ public class Messenger extends Activity {
             TextView inTxt = (TextView) findViewById(R.id.textMsg);
             inTxt.setText(intent.getExtras().getString("sms"));
         }
-    }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_messenger_app);
 
         //intent to filter for SMS messages received
         intentFilter = new IntentFilter();
