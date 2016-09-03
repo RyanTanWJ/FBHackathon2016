@@ -32,7 +32,7 @@
             android:label="@string/title_activity_login" />
         <activity android:name=".FingerPaintActivity" />
         <activity android:name=".DrawActivity" />
-        <activity android:name=".MessengerApp"></activity>
+        <activity android:name=".Messenger"></activity>
     </application>
 
 </manifest>
