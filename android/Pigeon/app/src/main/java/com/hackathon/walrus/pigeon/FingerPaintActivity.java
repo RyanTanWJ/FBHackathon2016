@@ -27,7 +27,9 @@ import android.widget.LinearLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,12 +182,13 @@ public class FingerPaintActivity extends Activity
 
     public class MyView extends View {
 
-        private Bitmap  mBitmap;
+        private Bitmap  mBitmap, bitmapArr[];
         private Canvas  mCanvas;
         private Path    mPath;
         private Paint   mBitmapPaint;
         private Paint   mPaint;
         private List<Path> mPathsArray = new ArrayList<Path>();
+        private int frameCounter = 0;
 
         //GIF encoder
 
@@ -203,8 +206,14 @@ public class FingerPaintActivity extends Activity
 
             mPath = new Path();
             mBitmapPaint = new Paint(Paint.DITHER_FLAG);
+            bitmapArr = new Bitmap[100];
         }
 
+        public void nextFrame(){
+            Bitmap bitmap = getDrawingCache();
+            bitmapArr[frameCounter] = bitmap;
+            frameCounter++;
+        }
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
@@ -268,16 +277,34 @@ public class FingerPaintActivity extends Activity
             }
             return true;
         }
+
+        public void saveGif() {
+            for(int i=0; i<=frameCounter; i++) {
+                Log.i(TAG, "ADDING FRAME " + i + " ...");
+                encoder.addFrame(bitmapArr[i]);
+            }
+            encoder.finish();
+            File filePath = new File("/sdcard/PigeonMessenger/images/", "sample.gif");
+            FileOutputStream outputStream;
+            try {
+                outputStream = new FileOutputStream(filePath);
+                // bosに生成されたgifデータをファイルに吐き出す
+                outputStream.write(mv.bos.toByteArray());
+            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
+            }
+        }
     }
     private static final int COLOR_MENU_ID = Menu.FIRST;
     private static final int EMBOSS_MENU_ID = Menu.FIRST + 1;
     private static final int BLUR_MENU_ID = Menu.FIRST + 2;
     private static final int ERASE_MENU_ID = Menu.FIRST + 3;
     private static final int SRCATOP_MENU_ID = Menu.FIRST + 4;
-    private static final int NEXT_FRAME = Menu.FIRST + 5;
-    private static final int Clear = Menu.FIRST + 6;
-    private static final int Save = Menu.FIRST + 7;
-    private static final int SAVE_GIF = Menu.FIRST + 8;
+    private static final int START_GIF = Menu.FIRST + 5;
+    private static final int NEXT_FRAME = Menu.FIRST + 6;
+    private static final int Clear = Menu.FIRST + 7;
+    private static final int Save = Menu.FIRST + 8;
+    private static final int SAVE_GIF = Menu.FIRST + 9;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -289,6 +316,7 @@ public class FingerPaintActivity extends Activity
         menu.add(0, ERASE_MENU_ID, 0, "Erase").setShortcut('5', 'z');
         menu.add(0, SRCATOP_MENU_ID, 0, "SrcATop").setShortcut('5', 'z');
         menu.add(0, Clear, 0, "Clear").setShortcut('5','z');
+        menu.add(0, START_GIF, 0, "Start GIF").setShortcut('5','z');
         menu.add(0, NEXT_FRAME, 0, "Next Frame").setShortcut('5','z');
         menu.add(0, Save, 0, "Save").setShortcut('5', 'z');
         menu.add(0, SAVE_GIF, 0, "Export GIF").setShortcut('5', 'z');
@@ -326,6 +354,14 @@ public class FingerPaintActivity extends Activity
                     mPaint.setMaskFilter(null);
                 }
                 return true;
+            case START_GIF:
+                if(mv.encoder==null) {
+                    mv.encoder = new AnimatedGifEncoder();
+                    mv.encoder.setDelay(100);  // ディレイ 500/ms
+                    mv.encoder.setRepeat(0);   // 0:ループする -1:ループしない
+                    mv.encoder.start(mv.bos);     // gitデータ生成先ををbosに設定
+                }
+                return true;
             case ERASE_MENU_ID:
                 mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
                 mPaint.setAlpha(0x80);
@@ -340,12 +376,12 @@ public class FingerPaintActivity extends Activity
                 mv.clear();
                 return true;
             case NEXT_FRAME:
-                mv.encoder = new AnimatedGifEncoder();
-                mv.encoder.setDelay(100);  // ディレイ 500/ms
-                mv.encoder.setRepeat(0);   // 0:ループする -1:ループしない
-                mv.encoder.start(mv.bos);     // gitデータ生成先ををbosに設定
+                mv.nextFrame();
+//                mv.encoder.addFrame(mv.getDrawingCache());
+                //mv.clear();
                 return true;
             case SAVE_GIF:
+                mv.saveGif();
                 return true;
             case Save:
                 AlertDialog.Builder editalert = new AlertDialog.Builder(FingerPaintActivity.this);
