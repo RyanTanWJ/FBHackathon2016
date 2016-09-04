@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -181,6 +183,13 @@ public class FingerPaintActivity extends Activity
     private MaskFilter mEmboss;
     private MaskFilter  mBlur;
 
+    Button button_next;
+    Button button_prev;
+    Button button_play;
+    Button button_send;
+
+    private boolean isPlaying = false;
+
     public void colorChanged(int color) {
         mPaint.setColor(color);
     }
@@ -337,6 +346,52 @@ public class FingerPaintActivity extends Activity
         menu.add(0, NEXT_FRAME, 0, "Next Frame").setShortcut('5','z');
         menu.add(0, Save, 0, "Save").setShortcut('5', 'z');
         menu.add(0, SAVE_GIF, 0, "Export GIF").setShortcut('5', 'z');
+
+        button_next = (Button)(findViewById(R.id.button_next));
+        button_prev = (Button)(findViewById(R.id.button_prev));
+        button_play = (Button)(findViewById(R.id.button_play));
+        button_send = (Button)(findViewById(R.id.button_send));
+
+
+        button_next.bringToFront();
+        button_prev.bringToFront();
+        button_play.bringToFront();
+        button_send.bringToFront();
+
+
+        button_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+
+        button_prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+
+        button_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+            }
+        });
+
+        button_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO
+                isPlaying = !isPlaying;
+
+                while(isPlaying){
+                    //play animation
+                }
+            }
+        });
+
 
 
         return true;
