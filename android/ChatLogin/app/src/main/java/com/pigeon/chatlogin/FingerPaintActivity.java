@@ -16,6 +16,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Environment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -24,10 +25,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,7 +53,8 @@ public class FingerPaintActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_finger_paint);
+        
         // remove title
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -165,7 +172,13 @@ public class FingerPaintActivity extends Activity
         mv= new MyView(this,null);
         mv.setDrawingCacheEnabled(true);
 //        mv.setBackgroundResource(R.drawable.afor);//set the back ground if you wish to
-        setContentView(mv);
+        // setContentView(mv);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+
+        addContentView(mv, params);
+
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -229,9 +242,15 @@ public class FingerPaintActivity extends Activity
             System.out.println("@@@bitmap " + frameCounter + " = " +  bitmap.toString());
             frameCounter++;
         }
+
         @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
+            if (h <= 0)
+                h = 300;
+            if (w <= 0)
+                w = 300;
+
             mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             mCanvas = new Canvas(mBitmap);
         }

@@ -50,4 +50,5 @@
         android:layout_alignBottom="@+id/button_play"
         android:layout_centerHorizontal="true"
         android:foregroundGravity="top" />
+
 </RelativeLayout>
