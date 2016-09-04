@@ -30,6 +30,7 @@ import android.view.ViewStub;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -190,6 +191,18 @@ public class FingerPaintActivity extends Activity
         mEmboss = new EmbossMaskFilter(new float[] { 1, 1, 1 },
                 0.4f, 6, 3.5f);
         mBlur = new BlurMaskFilter(8, BlurMaskFilter.Blur.NORMAL);
+
+        ImageButton ib = (ImageButton)findViewById(R.id.imageButton);
+        ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), ChatActivity.class);
+                Bundle b = new Bundle();
+                b.putParcelable("bitmap", mv.getDrawingCache());
+                i.putExtras(b);
+                startActivity(i);
+            }
+        });
     }
 
     private Paint       mPaint;
@@ -369,7 +382,7 @@ public class FingerPaintActivity extends Activity
         button_next = (Button)(findViewById(R.id.button_next));
         button_prev = (Button)(findViewById(R.id.button_prev));
         button_play = (Button)(findViewById(R.id.button_play));
-        button_send = (Button)(findViewById(R.id.button_send));
+        // button_send = (Button)(findViewById(R.id.button_send));
 
 
         button_next.bringToFront();

@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -38,6 +39,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private LinearLayout scrollLayout;
 
+    private Bitmap bitmap = null;
+
     private void addMessage() {
         // new SendMessage().execute(editText.getText().toString());
         try {
@@ -61,8 +64,10 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         Bundle b = this.getIntent().getExtras();
-        if (b != null)
+        if (b != null) {
             myChatUser = (ChatUser) b.getSerializable(getString(R.string.user_key_name));
+            bitmap = (Bitmap) b.getParcelable("bitmap");
+        }
 
         chatPanel = (ScrollView)findViewById(R.id.scrollView);
         editText = (EditText)findViewById(R.id.editText);
@@ -87,6 +92,12 @@ public class ChatActivity extends AppCompatActivity {
                 addMessage();
             }
         });
+
+        if (bitmap != null) {
+            ImageView iv = new ImageView(this);
+            iv.setImageBitmap(bitmap);
+            scrollLayout.addView(iv);
+        }
     }
 
     private class SendMessage extends AsyncTask<String, Void, Void> {

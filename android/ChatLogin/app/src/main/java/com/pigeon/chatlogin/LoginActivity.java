@@ -75,9 +75,9 @@ public class LoginActivity
             }
         });
 
-        if (token != null) {
-            LoginManager.getInstance().logOut();
-        }
+//        if (token != null) {
+//            LoginManager.getInstance().logOut();
+//        }
 
         ImageButton facebookButton = (ImageButton)findViewById(R.id.facebookButton);
         facebookButton.setOnClickListener(new View.OnClickListener() {
